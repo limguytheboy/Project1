@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .chat {
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            background-color: #f9f9f9;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 70%;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #00bcd4;
+            color: #fff;
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 70%;
+            align-self: flex-start;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+
+        .input-container input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .input-container input[type="submit"] {
+            padding: 8px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat" id="chat-box">
+            <div class="bot-message">Welcome to ChatGPT! How can I assist you today?</div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <input type="submit" value="Send" id="send-button">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('send-button').addEventListener('click', function() {
+            var userInput = document.getElementById('user-input');
+            var userMessage = userInput.value;
+            if (userMessage.trim() === '') {
+                return;
+            }
+            displayMessage(userMessage, true);
+            userInput.value = '';
+            // Replace the following line with your logic to send the user message to the backend (Python) for processing.
+            // After processing, receive the response and call displayMessage(response, false);
+        });
+
+        function displayMessage(message, isUser) {
+            var chatBox = document.getElementById('chat-box');
+            var messageClass = isUser ? 'user-message' : 'bot-message';
+            var messageElement = document.createElement('div');
+            messageElement.className = messageClass;
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
