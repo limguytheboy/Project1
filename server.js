@@ -22,7 +22,7 @@ app.post('/message', async (req, res) => {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Replace this with your actual API key
+        'Authorization': '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' // Replace this with your actual API key
       }
     });
 
