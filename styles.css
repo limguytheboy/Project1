@@ -1,3 +1,5 @@
+/* styles.css */
+
 body {
   font-family: Arial, sans-serif;
 }
@@ -8,17 +10,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-}
-
- #update-counter {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: red;
-      color: white;
-      border-radius: 50%;
-      padding: 5px;
-      font-size: 12px;
 }
 
 #chat-messages {
@@ -44,4 +35,14 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+#loading-indicator {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #007bff;
 }
