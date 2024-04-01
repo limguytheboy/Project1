@@ -8,7 +8,7 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-const apiKey = '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'; // Replace with your actual API key
+const apiKey = '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'; // Replace with your actual API key
 
 // Route to handle incoming messages from the client
 // Route to handle incoming messages from the client
