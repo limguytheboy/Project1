@@ -18,7 +18,7 @@ app.post('/message', async (req, res) => {
 
     // Send user message to the OpenAI API
     const response = await axios.post('https://api.openai.com/v1/completions', {
-      model: 'gpt-4-0125-preview',
+      model: 'davinci-002',
       prompt: userMessage,
       max_tokens: 50,
       temperature: 0.7
