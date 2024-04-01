@@ -33,7 +33,7 @@ app.post('/message', async (req, res) => {
     res.json({ response: completion.data.choices[0].message.content });
   } catch (error) {
     console.error('An error occurred:', error);
-    res.status(500).json({ error: 'An error occurred while processing the message.' });
+    res.status(500).json({ error: 'An error occurred while processing the message.1' });
   }
 });
 
