@@ -1,12 +1,10 @@
-// client.js
-
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const loadingIndicator = document.getElementById('loading-indicator');
 
 sendButton.addEventListener('click', async () => {
-  const userMessage = userInput.value;
+  const userMessage = userInput.value.trim(); // Trim leading/trailing whitespace
   if (!userMessage) return;
 
   appendMessage('You', userMessage);
@@ -21,7 +19,7 @@ sendButton.addEventListener('click', async () => {
   }
 
   hideLoadingIndicator();
-  userInput.value = ''; // Clear user input after sending message
+  userInput.value = '';
 });
 
 function appendMessage(sender, message) {
