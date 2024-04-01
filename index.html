@@ -81,29 +81,33 @@
             <input type="submit" value="Send" id="send-button">
         </div>
     </div>
-
     <script>
-        document.getElementById('send-button').addEventListener('click', function() {
-            var userInput = document.getElementById('user-input');
-            var userMessage = userInput.value;
-            if (userMessage.trim() === '') {
-                return;
-            }
-            displayMessage(userMessage, true);
-            userInput.value = '';
-            // Replace the following line with your logic to send the user message to the backend (Python) for processing.
-            // After processing, receive the response and call displayMessage(response, false);
-        });
-
-        function displayMessage(message, isUser) {
-            var chatBox = document.getElementById('chat-box');
-            var messageClass = isUser ? 'user-message' : 'bot-message';
-            var messageElement = document.createElement('div');
-            messageElement.className = messageClass;
-            messageElement.textContent = message;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
+    document.getElementById('send-button').addEventListener('click', function() {
+        var userInput = document.getElementById('user-input');
+        var userMessage = userInput.value;
+        if (userMessage.trim() === '') {
+            return;
         }
-    </script>
+        displayMessage(userMessage, true);
+        userInput.value = '';
+        
+        // Replace this with your logic to send the user message to the backend (Python) for processing.
+        // After processing, receive the response and call displayMessage(response, false);
+        
+        // For demonstration purposes, we'll just redirect to the YouTube link.
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    });
+
+    function displayMessage(message, isUser) {
+        var chatBox = document.getElementById('chat-box');
+        var messageClass = isUser ? 'user-message' : 'bot-message';
+        var messageElement = document.createElement('div');
+        messageElement.className = messageClass;
+        messageElement.textContent = message;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
+
 </body>
 </html>
