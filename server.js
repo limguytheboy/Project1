@@ -1,27 +1,45 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const chatMessages = document.getElementById('chat-messages');
-  const userInput = document.getElementById('user-input');
-  const sendButton = document.getElementById('send-button');
+const express = require('express');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
-  sendButton.addEventListener('click', async () => {
-    const userMessage = userInput.value.trim();
-    if (!userMessage) return;
+const app = express();
+const port = 3000;
 
-    appendMessage('You', userMessage);
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
 
-    // Send user message to the server
-    const response = await axios.post('/message', { message: userMessage });
+const apiKey = 'YOUR_OPENAI_API_KEY'; // Replace 'YOUR_OPENAI_API_KEY' with your actual API key
 
-    // Display the response from the server
-    appendMessage('ChatGPT', response.data.response);
+// Route to handle incoming messages from the client
+app.post('/message', async (req, res) => {
+  try {
+    const userMessage = req.body.message;
 
-    // Clear user input
-    userInput.value = '';
-  });
+    // Send user message to the OpenAI API
+    const response = await axios.post('https://api.openai.com/v1/completions', {
+      model: 'text-davinci-003', // Change this to your desired model
+      prompt: userMessage,
+      max_tokens: 50, // Adjust as needed
+      temperature: 0.7 // Adjust as needed
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}` // Use backticks for string interpolation
+      }
+    });
 
-  function appendMessage(sender, message) {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${sender}: ${message}`;
-    chatMessages.appendChild(messageElement);
+    // Return the response from the OpenAI API to the client
+    res.json({ response: response.data.choices[0].text });
+  } catch (error) {
+    console.error('Error:', error.response.data);
+    res.status(500).json({ error: 'An error occurred while processing the message.' });
   }
+});
+
+// Serve the HTML, CSS, and JavaScript files
+app.use(express.static('public'));
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
 });
