@@ -1,27 +1,43 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const chatMessages = document.getElementById('chat-messages');
-  const userInput = document.getElementById('user-input');
-  const sendButton = document.getElementById('send-button');
+// client.js
 
-  sendButton.addEventListener('click', async () => {
-    const userMessage = userInput.value.trim();
-    if (!userMessage) return;
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendButton = document.getElementById('send-button');
+const loadingIndicator = document.getElementById('loading-indicator');
 
-    appendMessage('You', userMessage);
+sendButton.addEventListener('click', async () => {
+  const userMessage = userInput.value;
+  if (!userMessage) return;
 
-    // Send user message to the server
-    const response = await axios.post('/message', { message: userMessage });
+  appendMessage('You', userMessage);
+  showLoadingIndicator();
 
-    // Display the response from the server
+  try {
+    const response = await sendMessageToServer(userMessage);
     appendMessage('ChatGPT', response.data.response);
-
-    // Clear user input
-    userInput.value = '';
-  });
-
-  function appendMessage(sender, message) {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${sender}: ${message}`;
-    chatMessages.appendChild(messageElement);
+  } catch (error) {
+    console.error('Error:', error.response.data);
+    appendMessage('Error', 'An error occurred while processing the message.');
   }
+
+  hideLoadingIndicator();
+  userInput.value = ''; // Clear user input after sending message
 });
+
+function appendMessage(sender, message) {
+  const messageElement = document.createElement('div');
+  messageElement.textContent = `${sender}: ${message}`;
+  chatMessages.appendChild(messageElement);
+}
+
+function showLoadingIndicator() {
+  loadingIndicator.style.display = 'block';
+}
+
+function hideLoadingIndicator() {
+  loadingIndicator.style.display = 'none';
+}
+
+async function sendMessageToServer(message) {
+  return await axios.post('/message', { message });
+}
