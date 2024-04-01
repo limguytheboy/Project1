@@ -4,7 +4,7 @@ const sendButton = document.getElementById('send-button');
 const loadingIndicator = document.getElementById('loading-indicator');
 
 sendButton.addEventListener('click', async () => {
-  const userMessage = userInput.value.trim(); // Trim leading/trailing whitespace
+  const userMessage = userInput.value.trim(); // Trim whitespace
   if (!userMessage) return;
 
   appendMessage('You', userMessage);
@@ -19,7 +19,7 @@ sendButton.addEventListener('click', async () => {
   }
 
   hideLoadingIndicator();
-  userInput.value = '';
+  userInput.value = ''; // Clear user input after sending message
 });
 
 function appendMessage(sender, message) {
