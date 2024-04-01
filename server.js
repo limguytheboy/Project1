@@ -8,7 +8,7 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-const apiKey = 'YOUR_OPENAI_API_KEY'; // Replace 'YOUR_OPENAI_API_KEY' with your actual API key
+const apiKey = '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'; // Replace 'YOUR_OPENAI_API_KEY' with your actual API key
 
 // Route to handle incoming messages from the client
 app.post('/message', async (req, res) => {
