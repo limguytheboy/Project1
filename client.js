@@ -12,7 +12,7 @@ sendButton.addEventListener('click', async () => {
 
   try {
     const response = await sendMessageToServer(userMessage);
-    appendMessage('ChatGPT', response.data.response);
+    appendMessage('Dialogflow', response.data.response);
   } catch (error) {
     console.error('Error:', error.response.data);
     appendMessage('Error', 'An error occurred while processing the message.');
