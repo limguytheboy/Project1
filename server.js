@@ -8,6 +8,11 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
+// Test endpoint to check server connectivity
+app.get('/status', (req, res) => {
+  res.send('Server is up and running!');
+});
+
 // Route to handle incoming messages from the client
 app.post('/message', async (req, res) => {
   try {
