@@ -1,17 +1,30 @@
-function sendMessage() {
-    var userInput = document.getElementById("user-input").value;
-    if (userInput.trim() !== "") {
-        // Send the user input to the server and get the response
-        // For simplicity, we'll just echo the user input for now
-        addMessage("You", userInput);
-        document.getElementById("user-input").value = "";
-    }
-}
+document.getElementById('send-btn').addEventListener('click', () => {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
 
-function addMessage(sender, message) {
-    var chatBox = document.getElementById("chat-box");
-    var messageElement = document.createElement("div");
-    messageElement.innerHTML = "<strong>" + sender + ":</strong> " + message;
-    chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    if (!text) return;
+
+    displayMessage(text, 'user');
+    input.value = '';
+
+    fetch('/send-message', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({text: text}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayMessage(data.reply, 'bot');
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function displayMessage(text, sender) {
+    const chatBox = document.getElementById('chat-box');
+    const msgDiv = document.createElement('div');
+    msgDiv.textContent = text;
+    msgDiv.className = sender;
+    chatBox.appendChild(msgDiv);
 }
