@@ -1,41 +1,17 @@
-const chatMessages = document.getElementById('chat-messages');
-const userInput = document.getElementById('user-input');
-const sendButton = document.getElementById('send-button');
-const loadingIndicator = document.getElementById('loading-indicator');
-
-sendButton.addEventListener('click', async () => {
-  const userMessage = userInput.value.trim(); // Trim whitespace
-  if (!userMessage) return;
-
-  appendMessage('You', userMessage);
-  showLoadingIndicator();
-
-  try {
-    const response = await sendMessageToServer(userMessage);
-    appendMessage('Dialogflow', response.data.response);
-  } catch (error) {
-    console.error('Error:', error.response.data);
-    appendMessage('Error', 'An error occurred while processing the message.');
-  }
-
-  hideLoadingIndicator();
-  userInput.value = ''; // Clear user input after sending message
-});
-
-function appendMessage(sender, message) {
-  const messageElement = document.createElement('div');
-  messageElement.textContent = `${sender}: ${message}`;
-  chatMessages.appendChild(messageElement);
+function sendMessage() {
+    var userInput = document.getElementById("user-input").value;
+    if (userInput.trim() !== "") {
+        // Send the user input to the server and get the response
+        // For simplicity, we'll just echo the user input for now
+        addMessage("You", userInput);
+        document.getElementById("user-input").value = "";
+    }
 }
 
-function showLoadingIndicator() {
-  loadingIndicator.style.display = 'block';
-}
-
-function hideLoadingIndicator() {
-  loadingIndicator.style.display = 'none';
-}
-
-async function sendMessageToServer(message) {
-  return await axios.post('/message', { message });
+function addMessage(sender, message) {
+    var chatBox = document.getElementById("chat-box");
+    var messageElement = document.createElement("div");
+    messageElement.innerHTML = "<strong>" + sender + ":</strong> " + message;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
