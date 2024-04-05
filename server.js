@@ -1,18 +1,38 @@
-// server.js
 const express = require('express');
-const bodyParser = require('body-parser');
+const dialogflow = require('@google-cloud/dialogflow');
+const uuid = require('uuid');
+
+const sessionId = uuid.v4();
 const app = express();
+const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.post('/api/chat', (req, res) => {
-    const userMessage = req.body.message;
-    // You can process the user's message here and generate a response
-    // For now, we'll just echo back the user's message
-    const response = userMessage;
-    res.send(response);
+app.post('/send-message', async (req, res) => {
+    const text = req.body.text;
+    const sessionClient = new dialogflow.SessionsClient();
+    const sessionPath = sessionClient.projectAgentSessionPath('your-project-id', sessionId);
+
+    const request = {
+        session: sessionPath,
+        queryInput: {
+            text: {
+                text: text,
+                languageCode: 'en-US',
+            },
+        },
+    };
+
+    try {
+        const responses = await sessionClient.detectIntent(request);
+        const result = responses[0].queryResult;
+        res.send({reply: result.fulfillmentText});
+    } catch (error) {
+        console.error(`ERROR: ${error}`);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-const port = 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
